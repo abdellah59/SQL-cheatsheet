@@ -1,12 +1,12 @@
 # SQL Cheat-Sheet
 
 ## Qu'est-ce que le SQL ?
-SQL (**Structured Query Language**) est un langage utilisé pour **interroger**, **manipuler** et **transformer** des données dans une **base de données relationnelle**.
+  SQL (**Structured Query Language**) est un langage utilisé pour **interroger**, **manipuler** et **transformer** des données dans une **base de données relationnelle**.
 
 ## Bases de données relationnelles
-Une base de données relationnelle est composée de **tables** :
-- Chaque **table** a des **colonnes** (attributs) et des **lignes** (données).
-- Les tables peuvent être **liées entre elles** par des relations (clés primaires / étrangères).
+  Une base de données relationnelle est composée de **tables** :
+    - Chaque **table** a des **colonnes** (attributs) et des **lignes** (données).
+    - Les tables peuvent être **liées entre elles** par des relations (clés primaires / étrangères).
 
 ## Objectifs de SQL
 SQL permet de :
@@ -24,11 +24,11 @@ Les bases du SQL incluent :
 
 ---
 
-### SQL - Requêtes avec contraintes (WHERE) 
+## SQL - Requêtes avec contraintes (WHERE) 
 
 `WHERE` permet de **filtrer** les lignes selon des conditions.
 
-#### Syntaxe de base
+### Syntaxe de base
 
 ```sql
 SELECT colonne1, colonne2, ...
@@ -48,9 +48,9 @@ WHERE condition
 
 ---
 
-### SQL – Contraintes sur les chaînes de caractères (WHERE)
+## SQL – Contraintes sur les chaînes de caractères (WHERE)
 
-#### Opérateurs utiles pour le texte
+### Opérateurs utiles pour le texte
 
 | Opérateur           | Description                                             | Exemple                                |
 |---------------------|---------------------------------------------------------|----------------------------------------|
@@ -71,9 +71,9 @@ WHERE condition
 
 ---
 
-### SQL – Filtrer, trier et limiter les résultats
+## SQL – Filtrer, trier et limiter les résultats
 
-#### Éliminer les doublons avec `DISTINCT`
+### Éliminer les doublons avec `DISTINCT`
 
 ```
 SELECT DISTINCT colonne1, colonne2, ...
@@ -112,16 +112,16 @@ LIMIT nombre
 OFFSET décalage;
 ```
 
-LIMIT : nombre maximal de lignes à retourner
-OFFSET : décalage (saute les x premières lignes)
-Idéal pour la pagination (ex : page 2 = LIMIT 10 OFFSET 10)
-La clause WHERE est exécutée avant ORDER BY, puis LIMIT/OFFSET.
+- LIMIT : nombre maximal de lignes à retourner
+- OFFSET : décalage (saute les x premières lignes) 
+- Idéal pour la pagination (ex : page 2 = LIMIT 10 OFFSET 10)
+- La clause WHERE est exécutée avant ORDER BY, puis LIMIT/OFFSET.
 
 ---
 
-### SQL – Révision : Requêtes `SELECT` simples
+## SQL – Révision : Requêtes `SELECT` simples
 
-#### Structure d'une requête complète
+### Structure d'une requête complète
 
 ```
 SELECT colonne1, colonne2, ...
@@ -155,5 +155,53 @@ WHERE age >= 18
 ORDER BY age DESC
 LIMIT 10 OFFSET 0;
 ```
-
 → Affiche les 10 utilisateurs majeurs les plus âgés.
+
+## SQL - Requêtes multi-tables avec JOIN
+
+  La normalisation est le processus de division des données en plusieurs tables pour :
+
+    - Réduire les duplications.
+    - Permettre une évolution indépendante des données.
+
+### Syntaxe de la jointure INNER JOIN
+
+```
+SELECT colonne, autre_table.colonne, ...
+FROM table_principale
+INNER JOIN autre_table
+    ON table_principale.id = autre_table.id
+WHERE condition(s)
+ORDER BY colonne ASC/DESC
+LIMIT nombre OFFSET décalage;
+```
+IMPORTANT :
+  - INNER JOIN = ne garde que les lignes avec des correspondances dans les deux tables.
+  - On peut écrire simplement JOIN au lieu de INNER JOIN, c’est équivalent.
+  - Les autres clauses (WHERE, ORDER BY, LIMIT, etc.) s’appliquent après la jointure.
+
+  ## SQL - Requêtes avec OUTER JOIN
+
+    - Une INNER JOIN ne renvoie que les lignes présentes dans les deux tables.
+
+    - Si les données sont asymétriques (ex : saisies à différents moments), vous risquez de perdre des informations.
+
+    - Pour éviter cela, on utilise :
+
+        * LEFT JOIN = Garde toutes les lignes de la table de gauche (même sans correspondance dans la table de droite).
+
+        * RIGHT JOIN = Garde toutes les lignes de la table de droite (même sans correspondance dans la table de gauche).
+
+        * FULL JOIN = Garde toutes les lignes des deux tables, avec ou sans correspondance.
+
+### Syntaxe générale des OUTER JOINs
+
+``` SELECT colonne, autre_colonne, ...
+FROM table1
+LEFT | RIGHT | FULL JOIN table2
+    ON table1.id = table2.matching_id
+WHERE condition(s)
+ORDER BY colonne ASC/DESC
+LIMIT nombre OFFSET décalage;
+```
+
