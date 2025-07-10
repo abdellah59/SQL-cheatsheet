@@ -184,7 +184,7 @@ IMPORTANT :
 
     - Une INNER JOIN ne renvoie que les lignes présentes dans les deux tables.
 
-    - Si les données sont asymétriques (ex : saisies à différents moments), vous risquez de perdre des informations.
+    - Si les données sont asymétriques (ex : saisies à différents moments), on peut perdre des informations.
 
     - Pour éviter cela, on utilise :
 
@@ -205,3 +205,17 @@ ORDER BY colonne ASC/DESC
 LIMIT nombre OFFSET décalage;
 ```
 
+## SQL - Les valeurs NULL
+  
+  - NULL représente une valeur inconnue ou absente dans une base de données.
+  - Il faut des conditions spécifiques pour gérer les NULL.
+
+```
+SELECT colonne1, colonne2
+FROM table
+WHERE colonne1 IS NULL
+  OR colonne2 IS NOT NULL;
+```
+
+  - IS NULL → Vrai si la colonne n’a pas de valeur
+  - IS NOT NULL → Vrai si la colonne contient une valeur
