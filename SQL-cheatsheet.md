@@ -219,3 +219,49 @@ WHERE colonne1 IS NULL
 
   - IS NULL → Vrai si la colonne n’a pas de valeur
   - IS NOT NULL → Vrai si la colonne contient une valeur
+
+## SQL - Expressions dans les requêtes
+
+Une expression est une combinaison de :
+
+    - Colonnes
+
+    - Opérateurs (+, -, *, /, etc.)
+
+    - Fonctions (mathématiques, chaînes, dates, etc.)
+
+  Elle permet de transformer ou calculer des valeurs au moment de l'exécution
+
+| Type         |                        Exemples                  |
+|--------------|--------------------------------------------------|
+|Mathématiques | `+`, `-`, `*`, `/`, `%`, `ABS()`, `ROUND()`, `POWER()`|
+|Chaînes       | `CONCAT()`, `UPPER()`, `LOWER()`, `SUBSTRING()`  |
+|Dates         | `NOW()`, `DATE()`, `DATEDIFF()` (selon le SGBD)  |
+
+Utilisation d'alias avec AS ==> Pour rendre les expressions plus lisibles et aussi pour les tables : 
+
+SELECT col_expression * 1.2 AS  expr_description,...
+FROM table;
+
+## SQL - Fonctions d’agrégation
+
+- Permet de résumer ou agréger plusieurs lignes de données.
+- Retourne une valeur unique (par défaut) ou une par groupe (via GROUP BY).
+
+### Syntaxe : Agrégation sur toutes les lignes
+```
+SELECT AGG_FONCTION(colonne) AS description_agregat
+FROM table
+WHERE condition;
+```
+### Fonctions d’agrégation courantes
+
+| Fonction         | Description                                                 |
+| ---------------- | ----------------------------------------------------------- |
+| `COUNT(*)`       | Compte **toutes les lignes**, y compris celles avec `NULL`. |
+| `COUNT(colonne)` | Compte les lignes où la colonne **n’est pas `NULL`**.       |
+| `MIN(colonne)`   | Renvoie la **plus petite valeur**.                          |
+| `MAX(colonne)`   | Renvoie la **plus grande valeur**.                          |
+| `AVG(colonne)`   | Calcule la **moyenne** des valeurs.                         |
+| `SUM(colonne)`   | Calcule la **somme** des valeurs.                           |
+
