@@ -1,0 +1,159 @@
+# SQL Cheat-Sheet
+
+## Qu'est-ce que le SQL ?
+SQL (**Structured Query Language**) est un langage utilisé pour **interroger**, **manipuler** et **transformer** des données dans une **base de données relationnelle**.
+
+## Bases de données relationnelles
+Une base de données relationnelle est composée de **tables** :
+- Chaque **table** a des **colonnes** (attributs) et des **lignes** (données).
+- Les tables peuvent être **liées entre elles** par des relations (clés primaires / étrangères).
+
+## Objectifs de SQL
+SQL permet de :
+- Rechercher des données (`SELECT`)
+- Ajouter des données (`INSERT`)
+- Modifier des données (`UPDATE`)
+- Supprimer des données (`DELETE`)
+- Gérer la structure des tables (`CREATE`, `ALTER`, `DROP`)
+
+Les bases du SQL incluent :
+- La structure des requêtes (`SELECT ... FROM ... WHERE`)
+- La création et modification de tables
+- Les jointures entre tables
+- Les fonctions d’agrégation (`COUNT`, `SUM`, etc.)
+
+---
+
+### SQL - Requêtes avec contraintes (WHERE) 
+
+`WHERE` permet de **filtrer** les lignes selon des conditions.
+
+#### Syntaxe de base
+
+```sql
+SELECT colonne1, colonne2, ...
+FROM table
+WHERE condition
+  AND/OR autre_condition;
+
+```
+
+| Opérateur                | Description                 | Exemple SQL                       |
+|------------------------ | --------------------------- | --------------------------------- |
+| =, !=, <, <=, >, >=      | Opérateurs standards        | `age != 30`                       |
+| `BETWEEN a AND b`        | Entre deux valeurs (inclus) | `prix BETWEEN 10 AND 100`         |
+| `NOT BETWEEN a AND b`    | En dehors de deux valeurs   | `note NOT BETWEEN 5 AND 15`       |
+| `IN (val1, val2, …)`     | Est dans une liste          | `id IN (1, 2, 3)`                 |
+| `NOT IN (val1, val2, …)` | N'est pas dans une liste    | `statut NOT IN ('banni', 'test')` |
+
+---
+
+### SQL – Contraintes sur les chaînes de caractères (WHERE)
+
+#### Opérateurs utiles pour le texte
+
+| Opérateur           | Description                                             | Exemple                                |
+|---------------------|---------------------------------------------------------|----------------------------------------|
+| `=`                 | Comparaison exacte (sensible à la casse)                | `nom = 'Jean'`                         |
+| `!=` ou `<>`        | Différent (sensible à la casse)                         | `nom != 'Paul'`                        |
+| `LIKE`              | Comparaison insensible à la casse avec joker            | `ville LIKE 'PARIS'`                   |
+| `NOT LIKE`          | N’est pas égal (insensible à la casse)                  | `pays NOT LIKE 'FRANCE'`               |
+| `%`                 | Joker : **0 ou plusieurs caractères** (avec LIKE)       | `nom LIKE '%ette%'` → 'Annette'        |
+| `_`                 | Joker : **1 seul caractère** (avec LIKE)                | `code LIKE 'A_3'` → 'AB3', 'AC3'       |
+| `IN (...)`          | Valeur textuelle dans une liste                         | `genre IN ('Homme', 'Femme')`          |
+| `NOT IN (...)`      | Valeur textuelle non dans une liste                     | `statut NOT IN ('test', 'archivé')`    |
+
+---
+
+#### Astuces
+
+- Les **chaînes de caractères doivent être entourées de guillemets simples** `'...'`
+
+---
+
+### SQL – Filtrer, trier et limiter les résultats
+
+#### Éliminer les doublons avec `DISTINCT`
+
+```
+SELECT DISTINCT colonne1, colonne2, ...
+FROM table
+WHERE condition;
+```
+Supprime les lignes dupliquées dans les résultats.
+Supprime les doublons sur toutes les colonnes sélectionnées.
+
+
+#### Trier les résultats avec `ORDER BY`
+
+```
+SELECT colonne1, colonne2, ...
+FROM table
+WHERE condition
+ORDER BY colonne ASC|DESC;
+```
+
+Trie les résultats selon une colonne :
+
+    ASC = ordre croissant (par défaut)
+
+    DESC = ordre décroissant
+
+Peut trier du texte, des dates ou des nombres.
+
+####  Limiter les résultats avec `LIMIT` et `OFFSET`
+
+```
+SELECT colonne1, ...
+FROM table
+WHERE condition
+ORDER BY colonne
+LIMIT nombre
+OFFSET décalage;
+```
+
+LIMIT : nombre maximal de lignes à retourner
+OFFSET : décalage (saute les x premières lignes)
+Idéal pour la pagination (ex : page 2 = LIMIT 10 OFFSET 10)
+La clause WHERE est exécutée avant ORDER BY, puis LIMIT/OFFSET.
+
+---
+
+### SQL – Révision : Requêtes `SELECT` simples
+
+#### Structure d'une requête complète
+
+```
+SELECT colonne1, colonne2, ...
+FROM table
+WHERE condition(s)
+ORDER BY colonne ASC|DESC
+LIMIT nombre
+OFFSET décalage;
+```
+
+ Éléments de base
+
+    SELECT : indique quelles colonnes afficher
+
+    FROM : indique de quelle table proviennent les données
+
+    WHERE : filtre les lignes selon une ou plusieurs conditions
+
+    ORDER BY : tri les résultats (ASC = croissant, DESC = décroissant)
+
+    LIMIT : limite le nombre de lignes retournées
+
+    OFFSET : ignore un certain nombre de lignes au début (utile pour la pagination)
+
+Exemple
+
+```
+SELECT nom, age
+FROM utilisateurs
+WHERE age >= 18
+ORDER BY age DESC
+LIMIT 10 OFFSET 0;
+```
+
+→ Affiche les 10 utilisateurs majeurs les plus âgés.
